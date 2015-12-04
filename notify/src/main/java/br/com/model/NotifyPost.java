@@ -1,7 +1,5 @@
 package br.com.model;
 
-import org.springframework.data.mongodb.core.mapping.Document;
-
 import lombok.Builder;
 import lombok.Getter;
 import lombok.Setter;
@@ -9,11 +7,15 @@ import lombok.Setter;
 @Getter
 @Setter
 @Builder
-@Document(collection="urlinfo")
-public class Notify {
+public class NotifyPost {
 	
 	private String itemId;
 	private String field;
 	private double value;
-	private String url;
+	public String getField() {
+		return field;
+	}
+	
+	
+
 }

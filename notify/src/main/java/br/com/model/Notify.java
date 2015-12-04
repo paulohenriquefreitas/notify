@@ -16,4 +16,5 @@ public class Notify {
 	private String field;
 	private double value;
 	private String url;
+	private String name;
 }

@@ -4,6 +4,10 @@ import java.net.UnknownHostException;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.springframework.data.mongodb.core.MongoOperations;
+import org.springframework.data.mongodb.core.MongoTemplate;
+import org.springframework.data.mongodb.core.query.Criteria;
+import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.stereotype.Component;
 
 import br.com.model.Notify;
@@ -28,7 +32,9 @@ public class MongoDao {
 		List<Notify> notifyList = new ArrayList<>();
 		try {
 			mongoClient = new MongoClient("localhost",PORT);
-			DB db = mongoClient.getDB( DATABASE_NAME );
+			MongoOperations mongoOps = new MongoTemplate(mongoClient,DATABASE_NAME);
+			notifyList = mongoOps.find(new Query(Criteria.where("field").is(field)), Notify.class, COLLECTION);
+			/*DB db = mongoClient.getDB( DATABASE_NAME );
 			DBCollection coll = db.getCollection(COLLECTION);
 			Gson gson = new Gson();
 			DBObject doc = new BasicDBObject("field", field);
@@ -36,7 +42,7 @@ public class MongoDao {
 			while (cursor.hasNext()) {
 				DBObject obj = cursor.next();
 				notifyList.add(gson.fromJson(obj.toString(), Notify.class));
-			}				
+			}				*/
 			
 		} catch (UnknownHostException e) {			
 			e.printStackTrace();			

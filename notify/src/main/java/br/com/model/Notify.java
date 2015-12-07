@@ -12,7 +12,7 @@ import lombok.Setter;
 @Document(collection="urlinfo")
 public class Notify {
 	
-	private String itemId;
+	private String id;
 	private String field;
 	private double value;
 	private String url;

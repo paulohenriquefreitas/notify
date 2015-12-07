@@ -35,13 +35,13 @@ public class NotifyController {
 	private PublisherService publisherService;
 	
 	@RequestMapping(method = RequestMethod.POST)
-    public  ResponseEntity<?> put(@RequestBody NotifyPost notifyPost){
+    public  ResponseEntity<?> put(@RequestBody NotifyPost notifyPost) throws Exception{
 	
 		List<Notify> notify = notifyService.findNotify(notifyPost.getField());
-		if(notify == null) {
-			LOG.info("Notify [" + notifyPost.getField() + "] not found.");			
-		}else{
+		if(notify != null && notify.size() > 0) {
 			callMessageConsumer(notify);
+		}else{
+			LOG.info("Notify [" + notifyPost.getField() + "] not found.");			
 		}
 		return new ResponseEntity<>(HttpStatus.OK);
     }

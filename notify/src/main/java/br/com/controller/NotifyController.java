@@ -2,6 +2,8 @@ package br.com.controller;
 
 import java.util.List;
 
+import javax.print.attribute.standard.MediaSize.Other;
+
 import lombok.Getter;
 import lombok.Setter;
 
@@ -28,11 +30,11 @@ public class NotifyController {
 	@Autowired
 	private NotifyService notifyService;
 	
-	@RequestMapping(value = "{itemId}", method = RequestMethod.POST)
-    public  ResponseEntity<?> put(@PathVariable String itemId, @RequestBody NotifyPost notifyPost){
+	@RequestMapping(method = RequestMethod.POST)
+    public  ResponseEntity<?> put(@RequestBody NotifyPost notifyPost){
 		List<Notify> notify = notifyService.findNotify(notifyPost.getField());
 		if(notify == null) {
-			LOG.info("Notify [" + itemId + "] not found.");			
+			LOG.info("Notify [" + notifyPost.getField() + "] not found.");			
 		}else{
 			callMessageConsumer(notify);
 		}

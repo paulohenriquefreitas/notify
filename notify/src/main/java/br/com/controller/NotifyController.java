@@ -20,6 +20,7 @@ import org.springframework.web.bind.annotation.RestController;
 import br.com.model.Notify;
 import br.com.model.NotifyPost;
 import br.com.service.NotifyService;
+import br.com.service.PublisherService;
 
 @RestController
 @RequestMapping("notify")
@@ -27,11 +28,15 @@ import br.com.service.NotifyService;
 @Setter
 public class NotifyController {
 	private static final Logger LOG = Logger.getLogger(NotifyController.class);
+	
 	@Autowired
 	private NotifyService notifyService;
+	@Autowired
+	private PublisherService publisherService;
 	
 	@RequestMapping(method = RequestMethod.POST)
     public  ResponseEntity<?> put(@RequestBody NotifyPost notifyPost){
+	
 		List<Notify> notify = notifyService.findNotify(notifyPost.getField());
 		if(notify == null) {
 			LOG.info("Notify [" + notifyPost.getField() + "] not found.");			
@@ -41,10 +46,7 @@ public class NotifyController {
 		return new ResponseEntity<>(HttpStatus.OK);
     }
 
-	private void callMessageConsumer(List<Notify> notify) {
-		System.out.println(notify);
-		
+	private void callMessageConsumer(List<Notify> notifies) throws Exception {
+		publisherService.publish(notifies);
 	}
-	
 }
-
